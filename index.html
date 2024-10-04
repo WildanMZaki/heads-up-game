@@ -119,13 +119,13 @@
             }
         }
 
-        // Handle phone flipping to change word
+        // Handle phone rotation to change word
         window.addEventListener('deviceorientation', function(event) {
-            const beta = event.beta;
+            const alpha = event.alpha; // Use alpha for rotation detection
             const orientation = window.orientation;
 
-            // Check if phone is in landscape and tilted forward
-            if (beta > 30 && beta < 60 && gameStarted && isWordChangingAllowed && (orientation === 90 || orientation === -90)) {
+            // Check if phone is in landscape and rotated
+            if (alpha > 45 && alpha < 135 && gameStarted && isWordChangingAllowed && (orientation === 90 || orientation === -90)) {
                 isWordChangingAllowed = false;
 
                 // Show the next word
