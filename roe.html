@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone Flip & Orientation Detector</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+        #output {
+            border: 2px solid black;
+            padding: 10px;
+            width: 350px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Phone Orientation & Motion Detector</h1>
+    <p>Flip, rotate, or tilt your phone to see changes in the values below.</p>
+
+    <div id="output">
+        <h3>Orientation</h3>
+        <p>Alpha (Z-axis rotation): <span id="alpha">0</span></p>
+        <p>Beta (X-axis tilt): <span id="beta">0</span></p>
+        <p>Gamma (Y-axis tilt): <span id="gamma">0</span></p>
+        <p>Orientation: <span id="orientation">Portrait (Upright)</span></p>
+        <p>window.orientation: <span id="orientationValue">0</span></p>
+
+        <h3>Motion</h3>
+        <p>Acceleration X: <span id="accelerationX">0</span></p>
+        <p>Acceleration Y: <span id="accelerationY">0</span></p>
+        <p>Acceleration Z: <span id="accelerationZ">0</span></p>
+    </div>
+
+    <script>
+        // Update orientation change and display parameters
+        function updateOrientation() {
+            let orientationElement = document.getElementById("orientation");
+            let orientationValueElement = document.getElementById("orientationValue");
+
+            // Display window.orientation value
+            orientationValueElement.textContent = window.orientation;
+
+            // Map window.orientation to human-readable format
+            if (window.orientation === 0) {
+                orientationElement.textContent = "Portrait (Upright)";
+            } else if (window.orientation === 90) {
+                orientationElement.textContent = "Landscape (Right)";
+            } else if (window.orientation === -90) {
+                orientationElement.textContent = "Landscape (Left)";
+            } else if (window.orientation === 180) {
+                orientationElement.textContent = "Portrait (Upside-down)";
+            }
+        }
+
+        // Initial call to set orientation
+        updateOrientation();
+
+        // Listen for orientation change
+        window.addEventListener("orientationchange", updateOrientation);
+
+        // Listen for device orientation changes
+        window.addEventListener("deviceorientation", function(event) {
+            document.getElementById("alpha").textContent = event.alpha.toFixed(2);
+            document.getElementById("beta").textContent = event.beta.toFixed(2);
+            document.getElementById("gamma").textContent = event.gamma.toFixed(2);
+        });
+
+        // Listen for device motion (acceleration) events
+        window.addEventListener("devicemotion", function(event) {
+            document.getElementById("accelerationX").textContent = event.acceleration.x.toFixed(2);
+            document.getElementById("accelerationY").textContent = event.acceleration.y.toFixed(2);
+            document.getElementById("accelerationZ").textContent = event.acceleration.z.toFixed(2);
+        });
+    </script>
+
+</body>
+</html>
